@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito | TicketHammster MX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%; /* Importante para que el footer se mantenga abajo */
+            margin: 0;    /* Quita el margen predeterminado */
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column; /* Hace que el contenido se organice verticalmente */
+        }
+        
+        .content-wrap {
+            flex: 1; /* Permite que este contenedor crezca y ocupe el espacio disponible, empujando el footer hacia abajo */
+            background-color: #fff; /* Color de fondo del contenido (ajustable) */
+        }
+        
+        footer {
+            background-color: #111;
+            text-align: center;
+            color: white;
+            padding: 20px 0; /* Espaciado dentro del footer */
+            margin-top: auto; /* Asegura que el footer quede en la parte inferior */
+        }
+        
+        /* Resto de los estilos */
+        .navbar-brand img {
+            max-height: 50px;
+        }
+        
+        .nav-link {
+            font-weight: bold;
+            color: #0070C0;
+        }
+        
+        .nav-link:hover {
+            color: #0050A0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">TicketHammster MX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="eventos.html">Eventos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="boleteria.html">Boleteria</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contactos.html">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ayuda.html">Ayuda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="carrito.html">Carrito</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección de carrito -->
+    <div class="container content-wrap">
+        <h1>Carrito de Compras</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Evento</th>
+                    <th>Fecha</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="cart-table-body">
+                <!-- Los boletos se cargarán aquí -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>© 2024 TicketHammster México. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function loadCart() {
+            // Obtener el carrito del localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Obtener la tabla del carrito
+            const tableBody = document.getElementById('cart-table-body');
+            // Limpiar la tabla existente
+            tableBody.innerHTML = '';
+            // Llenar la tabla con los datos del carrito
+            cart.forEach((item, index) => {
+                let row = `<tr>
+                    <td>${item.name}</td>
+                    <td>${item.date}</td>
+                    <td>$${item.price}</td>
+                    <td>
+                        <button class="btn btn-danger" onclick="removeFromCart(${index})">Eliminar</button>
+                    </td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function removeFromCart(index) {
+            // Obtener el carrito del localStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            // Eliminar el elemento en el índice dado
+            cart.splice(index, 1);
+            // Guardar el carrito actualizado en el localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Recargar el carrito
+            loadCart();
+        }
+
+        // Cargar el carrito cuando la página se cargue
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
+    
